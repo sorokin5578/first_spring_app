@@ -1,0 +1,15 @@
+<html>
+<body>
+<div>
+    <i>Update student by id</i>
+    <form method="post" action="/UpdateById">
+		<input type="text" name="text0" placeholder="Введите id" /></br>
+        <input type="text" name="text1" placeholder="Введите имя" /></br>
+        <input type="text" name="text2" placeholder="Введите фамилию" /></br>
+        <input type= "text" name="text3" placeholder="Введите возраст" /></br>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit">Обновить</button>
+    </form>
+</div>
+</body>
+</html>

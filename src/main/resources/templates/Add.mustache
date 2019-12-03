@@ -1,0 +1,14 @@
+<html>
+<body>
+<div>
+    <i>Add new student</i>
+    <form method="post" action="/Add">
+        <input type="text" name="text" placeholder="Введите имя" /></br>
+        <input type="text" name="text2" placeholder="Введите фамилию" /></br>
+        <input type= "text" name="text3" placeholder="Введите возраст" /></br>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>
