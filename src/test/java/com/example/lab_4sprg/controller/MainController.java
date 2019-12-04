@@ -31,26 +31,24 @@ public class MainController {
     private EntityManager entityManager;
 
     @GetMapping("/")
-    public String greeting(Map<String,Object> model){
-        return "greeting";
-    }
+    public String greeting(Map<String,Object> model){ return "greeting"; }
 
 
     @GetMapping("/main")
     public String main(Map<String,Object> model){
-        Iterable<group443> group443s=group443Repo.findAll();
+        Iterable<group443> group443s=group443Repo.findAllHql();
 
-        model.put("some", group443s);
+        model.put("names", group443s);
         return "main";
     }
 
-    @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String text2, @RequestParam String text3, Map<String,Object> model){
-        Iterable<group443> names = group443Repo.findAllHql();
-        model.put("names", names);
-
-        return "main";
-    }
+//    @PostMapping("/main")
+//    public String add(Map<String,Object> model){
+//        Iterable<group443> names = group443Repo.findAllHql();
+//        model.put("names", names);
+//
+//        return "main";
+//    }
 
     @PostMapping("filter")
     public String filter(@RequestParam String filter, Map<String,Object> model){
@@ -127,10 +125,6 @@ public class MainController {
             model.put("messageDel", "Не правильный формат ввода!");
             return "DeleteById";
         }
-
-
-
-
     }
 
     @GetMapping("/UpdateById")
