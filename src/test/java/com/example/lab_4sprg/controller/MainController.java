@@ -1,5 +1,6 @@
 package com.example.lab_4sprg.controller;
 
+import com.example.lab_4sprg.domain.User;
 import com.example.lab_4sprg.domain.group443;
 import com.example.lab_4sprg.repos.group443Repo;
 import org.hibernate.Criteria;
@@ -10,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,9 +76,9 @@ public class MainController {
     }
 
     @PostMapping("/Add")
-    public String Add(@RequestParam String text, @RequestParam String text2, @RequestParam String text3, Map<String,Object> model){
+    public String Add(@AuthenticationPrincipal User user,@RequestParam String text, @RequestParam String text2, @RequestParam String text3, Map<String,Object> model){
         try {
-            group443 test1 = new group443(text, text2, Integer.parseInt(text3));
+            group443 test1 = new group443(text, text2, Integer.parseInt(text3), user);
             group443Repo.save(test1);
             Iterable<group443> names = group443Repo.findAllHql();
             model.put("message", "Cтудент успешно добавлен!");
@@ -175,7 +177,8 @@ public class MainController {
 
     public group443 FindByIdCrit(Session session, Integer id){
         Transaction txn= session.beginTransaction();
-        Criteria criteria = session.createCriteria(group443.class).add(Restrictions.like("id",id));
+        Criteria criteria = session.createCriteria(group443.class)
+                .add(Restrictions.like("id",id));
         group443 group = (group443)criteria.uniqueResult();
         txn.commit();
         return group;

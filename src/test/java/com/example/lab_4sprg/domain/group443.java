@@ -4,10 +4,7 @@ import org.junit.Test;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Transactional
@@ -20,15 +17,33 @@ public class group443 {
     private String sname1;
     private Integer age;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+
+
     public group443() {
     }
 
-    public group443(String name1, String sname1, Integer age) {
+    public group443(String name1, String sname1, Integer age, User user) {
         this.name1 = name1;
         this.sname1 = sname1;
         this.age = age;
+        this.author=user;
     }
 
+    public String getAuthorName(){
+        return author!=null ? author.getUsername():"<none>";
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
     public String getSname1() {
         return sname1;
     }
