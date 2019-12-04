@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,38 +38,24 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String main(Map<String,Object> model){
-        Iterable<group443> group443s=group443Repo.findAllHql();
+    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model){
+        try {
+            Iterable<group443> names = group443Repo.findAllHql();
+            if (filter != null && !filter.isEmpty()) {
+                names = group443Repo.findByAge2(Integer.parseInt(filter));
+            } else {
+                names = group443Repo.findAllHql();
+            }
 
-        model.put("names", group443s);
-        return "main";
-    }
-
-//    @PostMapping("/main")
-//    public String add(Map<String,Object> model){
-//        Iterable<group443> names = group443Repo.findAllHql();
-//        model.put("names", names);
-//
-//        return "main";
-//    }
-
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String,Object> model){
-        try{
-        Iterable<group443> names;
-        if(filter!=null && !filter.isEmpty()){
-            names =group443Repo.findByAge2(Integer.parseInt(filter));
-        }
-        else{
-            names = group443Repo.findAllHql();
-        }
-        model.put("names", names);
+            model.addAttribute("names", names);
+            model.addAttribute("filter", filter);
+            return "main";
         }catch (Exception e){
-            model.put("message", "Введите целое число!");
+            model.addAttribute("names", "Введите целое число!");
             return "main";
         }
-        return "main";
     }
+
 
     @GetMapping("/Add")
     public String Add(){
@@ -76,9 +63,9 @@ public class MainController {
     }
 
     @PostMapping("/Add")
-    public String Add(@AuthenticationPrincipal User user,@RequestParam String text, @RequestParam String text2, @RequestParam String text3, Map<String,Object> model){
+    public String Add(@AuthenticationPrincipal User user,@RequestParam String text1, @RequestParam String text2, @RequestParam String text3, Map<String,Object> model){
         try {
-            group443 test1 = new group443(text, text2, Integer.parseInt(text3), user);
+            group443 test1 = new group443(text1, text2, Integer.parseInt(text3), user);
             group443Repo.save(test1);
             Iterable<group443> names = group443Repo.findAllHql();
             model.put("message", "Cтудент успешно добавлен!");
@@ -86,6 +73,9 @@ public class MainController {
         }
         catch (Exception e){
             model.put("messageAdd", "Не правильный формат ввода!");
+            model.put("text1",text1);
+            model.put("text2",text2);
+            model.put("text3",text3);
             return "Add";
         }
         return "main";
@@ -125,6 +115,7 @@ public class MainController {
             }
         }catch (Exception e){
             model.put("messageDel", "Не правильный формат ввода!");
+            model.put("text",text);
             return "DeleteById";
         }
     }
@@ -169,6 +160,10 @@ public class MainController {
             }
         }catch (Exception e){
             model.put("messageUp", "Не правильный формат ввода!");
+            model.put("text0",text0);
+            model.put("text1",text1);
+            model.put("text2",text2);
+            model.put("text3",text3);
             return "UpdateById";
         }
 
