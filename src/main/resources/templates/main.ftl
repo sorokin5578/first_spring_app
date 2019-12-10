@@ -22,7 +22,7 @@
     <table>
         <thead>
         <tr>
-<#--            <th>Id</th>-->
+            <th>Avatar</th>
             <th>Name</th>
             <th>Sname</th>
             <th>Age</th>
@@ -33,9 +33,15 @@
         </thead>
         <tbody>
         <#list names as name>
-            <tr align="center">
+            <tr align="center" height="80">
             <div>
-<#--                <td><b>${name.id}</b></td>-->
+                <td>
+                <div>
+                    <#if name.fileName??>
+                        <img src="/img/${name.fileName}" width="50" height="75">
+                    </#if>
+                </div>
+                </td>
                 <td><span>${name.name1}</span></td>
                 <td><span>${name.sname1}</span></td>
                 <td><i>${name.age}</i></td>

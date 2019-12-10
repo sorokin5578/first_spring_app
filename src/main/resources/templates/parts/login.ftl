@@ -15,13 +15,15 @@
 </#macro>
 
 <#macro addAndUp path>
-    <form method="post" action=${path}>
+    <form method="post" action="${path}" enctype="multipart/form-data">
         <#if path=="/UpdateById">
             <br/>
             <input type="hidden" name="text0" placeholder="Введите id" <#if text0??> value="${text0}"</#if >/>
+            <input type=file name="file"/></br>
         </#if >
         <#if path=="/Add">
             </br>
+            <input type=file name="file"/></br>
         </#if >
         <input type="text" name="text1" placeholder="Введите имя" <#if text1??> value="${text1}"</#if >/></br>
         <input type="text" name="text2" placeholder="Введите фамилию" <#if text2??> value="${text2}"</#if >/></br>

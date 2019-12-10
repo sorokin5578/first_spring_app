@@ -17,6 +17,8 @@ public class group443 {
     private String sname1;
     private Integer age;
 
+    private String fileName;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
@@ -74,5 +76,13 @@ public class group443 {
 
     public void setName1(String name1) {
         this.name1 = name1;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
