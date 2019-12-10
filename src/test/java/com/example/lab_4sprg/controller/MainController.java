@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,7 +39,8 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model){
+    public String main(@RequestParam(required = false, defaultValue = "") String filter,
+                       Model model){
         try {
             Iterable<group443> names = group443Repo.findAllHql();
             if (filter != null && !filter.isEmpty()) {
@@ -46,7 +48,6 @@ public class MainController {
             } else {
                 names = group443Repo.findAllHql();
             }
-
             model.addAttribute("names", names);
             model.addAttribute("filter", filter);
             return "main";
@@ -56,6 +57,16 @@ public class MainController {
         }
     }
 
+    @GetMapping("del/{name}")
+    public String del(@PathVariable group443 name, Model model){
+        return DeleteById(name.getId().toString(), (Map<String, Object>) model);
+    }
+
+    @GetMapping("up/{name}")
+    public String up(@PathVariable group443 name, Model model){
+        model.addAttribute("text0", name.getId().toString());
+        return "UpdateById";
+    }
 
     @GetMapping("/Add")
     public String Add(){
@@ -152,10 +163,18 @@ public class MainController {
                     return "main";
                 } else {
                     model.put("messageUp", "Студента с id=" + text0 + " не существует!");
+                    model.put("text0",text0);
+                    model.put("text1",text1);
+                    model.put("text2",text2);
+                    model.put("text3",text3);
                     return "UpdateById";
                 }
             } else {
                 model.put("messageUp", "Не правильный id!");
+                model.put("text0",text0);
+                model.put("text1",text1);
+                model.put("text2",text2);
+                model.put("text3",text3);
                 return "UpdateById";
             }
         }catch (Exception e){

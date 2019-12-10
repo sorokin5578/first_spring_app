@@ -18,7 +18,7 @@
     <form method="post" action=${path}>
         <#if path=="/UpdateById">
             <br/>
-            <input type="text" name="text0" placeholder="Введите id" <#if text0??> value="${text0}"</#if >/></br>
+            <input type="hidden" name="text0" placeholder="Введите id" <#if text0??> value="${text0}"</#if >/>
         </#if >
         <#if path=="/Add">
             </br>

@@ -8,8 +8,8 @@
     <div>
         </br>
         <a href="/Add">Add new student</a></br></br>
-        <a href="/DeleteById">Delete student by id</a></br></br>
-        <a href="/UpdateById">Update student by id</a></br></br>
+<#--        <a href="/DeleteById">Delete student by id</a></br></br>-->
+<#--        <a href="/UpdateById">Update student by id</a></br></br>-->
         <#if message??>
             ${message}
         </#if>
@@ -19,15 +19,34 @@
         <button type="submit">Найти</button>
     </form>
     <div>Список группы</div>
-    <#list names as name>
-    <div>
-        <b>${name.id}</b>
-        <span>${name.name1}</span>
-        <span>${name.sname1}</span>
-        <i>${name.age}</i>
-        <strong>${name.authorName}</strong>
-    </div>
+    <table>
+        <thead>
+        <tr>
+<#--            <th>Id</th>-->
+            <th>Name</th>
+            <th>Sname</th>
+            <th>Age</th>
+            <th>Author</th>
+            <th>Delete</th>
+            <th>Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list names as name>
+            <tr align="center">
+            <div>
+<#--                <td><b>${name.id}</b></td>-->
+                <td><span>${name.name1}</span></td>
+                <td><span>${name.sname1}</span></td>
+                <td><i>${name.age}</i></td>
+                <td><strong>${name.authorName}</strong></td>
+                <td><a href="/del/${name.id}">Delete</a></td>
+                <td><a href="/up/${name.id}">Edit</a></td>
+            </div>
+            </tr>
         <#else>
             No student
-    </#list>
+        </#list>
+        </tbody>
+    </table>
 </@c.page>
