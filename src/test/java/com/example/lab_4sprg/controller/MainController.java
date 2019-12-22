@@ -51,8 +51,8 @@ public class MainController {
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter,
                        Model model) {
+        Iterable<group443> names = group443Repo.findAllHql();
         try {
-            Iterable<group443> names = group443Repo.findAllHql();
             if (filter != null && !filter.isEmpty()) {
                 names = group443Repo.findByAge2(Integer.parseInt(filter));
             } else {
@@ -62,7 +62,10 @@ public class MainController {
             model.addAttribute("filter", filter);
             return "main";
         } catch (Exception e) {
-            model.addAttribute("names", "Введите целое число!");
+            names = group443Repo.findAllHql();
+            model.addAttribute("filter", filter);
+            model.addAttribute("message", "Введите целое число!");
+            model.addAttribute("names", names);
             return "main";
         }
     }
@@ -81,6 +84,9 @@ public class MainController {
     public String up(@PathVariable group443 name, Model model) {
         try {
             model.addAttribute("text0", name.getId().toString());
+            model.addAttribute("text1", name.getName1());
+            model.addAttribute("text2", name.getSname1());
+            model.addAttribute("text3", name.getAge().toString());
             return "UpdateById";
         } catch (Exception e) {
             return main("",model);
@@ -101,24 +107,32 @@ public class MainController {
             Map<String, Object> model,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        group443 test1 = new group443(text1, text2, Integer.parseInt(text3), user);
+        try {
+            group443 test1 = new group443(text1, text2, Integer.parseInt(text3), user);
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFileName = uuidFile + "." + file.getOriginalFilename();
+                file.transferTo(new File(uploadPath + "/" + resultFileName));
+                test1.setFileName(resultFileName);
             }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
-            test1.setFileName(resultFileName);
-        }
 
-        group443Repo.save(test1);
-        Iterable<group443> names = group443Repo.findAllHql();
-        model.put("message", "Cтудент успешно добавлен!");
-        model.put("names", names);
-        return "main";
+            group443Repo.save(test1);
+            Iterable<group443> names = group443Repo.findAllHql();
+            model.put("message", "Cтудент успешно добавлен!");
+            model.put("names", names);
+            return "main";
+        }catch(Exception c){
+            model.put("messageAdd", "Не правильный формат ввода!");
+            model.put("text1", text1);
+            model.put("text2", text2);
+            model.put("text3", text3);
+            return "Add";
+        }
     }
 
     @GetMapping("/DeleteById")

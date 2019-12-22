@@ -44,14 +44,14 @@
                     <label class="custom-file-label" for="customFile">Choose file</label>
                 </div>
             </div>
-            <#if path=="/UpdateById">
-                <div class="form-group">
+            <div class="form-group">
+                <#if path=="/UpdateById">
                     <#if isAdmin>
                         <input type="text" class="form-control" name="text0"
                                placeholder="Id" <#if text0??> value="${text0}"</#if>/>
                     </#if>
-                </div>
-            </#if>
+                </#if>
+            </div>
             <div class="form-group">
                 <input type="text" class="form-control" name="text1"
                        placeholder="Name" <#if text1??> value="${text1}"</#if >/>

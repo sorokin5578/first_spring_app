@@ -1,15 +1,18 @@
 <#import "parts/common.ftl" as c>
 <#include "parts/security.ftl">
 <@c.page>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <form method="get" action="/main" class="form-inline">
-                <input type="text" name="filter" class="form-control"
-                       placeholder="Find by Age" <#if filter??> value="${filter}"</#if >/></br>
-                <button type="submit" class="btn btn-primary ml-2">Find</button>
-            </form>
+    <div class="collapse mt-2" id="collapseExample">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <form method="get" action="/main" class="form-inline">
+                    <input type="text" name="filter" class="form-control"
+                           placeholder="Find by Age" <#if filter??> value="${filter}"</#if >/></br>
+                    <button type="submit" class="btn btn-primary ml-2">Find</button>
+                </form>
+            </div>
         </div>
     </div>
+
     <div>
         <#if message??>
             ${message}
@@ -18,7 +21,7 @@
 
     <div class="card-columns">
         <#list names as name>
-            <div class="card my-3" style="width: 75%; height: 75%;" >
+            <div class="card my-3" style="width: 75%; height: 75%;">
                 <#if name.fileName??>
                     <img src="/img/${name.fileName}" class="card-img-top">
                 </#if>
