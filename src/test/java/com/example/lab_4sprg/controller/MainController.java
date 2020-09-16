@@ -51,7 +51,7 @@ public class MainController {
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter,
                        Model model) {
-        Iterable<group443> names = group443Repo.findAllHql();
+        Iterable<group443> names;
         try {
             if (filter != null && !filter.isEmpty()) {
                 names = group443Repo.findByAge2(Integer.parseInt(filter));
